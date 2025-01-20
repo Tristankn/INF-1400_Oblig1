@@ -10,9 +10,10 @@ class Board:
         self.n_cols = len(nums)
         self.nums = [[None for _ in range(self.n_rows)] for _ in range(self.n_cols)]
 
-    def _set_up_nums(self):
-        # Set up the squares on the board (ints into Square objects)
-        pass
+    def _set_up_nums(self, board):
+        # Denne funksjonen må hente tall fra sudokureader og putte dem inn i stedet for None
+        number_list = board
+        
 
     def _set_up_elems(self):
         # You should set up links between your squares and elements
@@ -34,8 +35,29 @@ class Board:
         r = r[:-3] + "]"
         return r
 
+class SudokuBoard(Board):
+    pass
+
+class Square:
+    
+    def __init__(self):
+        number = 0
+        row = 0
+        collumn = 0
+        box = 0
+
+
 if __name__ == "__main__":
     # Test code...
+    square = Square()
+   
     reader = Sudoku_reader("sudoku_10.csv")
     board = Board(reader.next_board())
     print(board)
+
+    print("NY KJØRING")
+
+    #print(square)
+    
+    #board._set_up_nums(board)
+    

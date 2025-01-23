@@ -1,0 +1,5 @@
+
+def print_square_value(self, print_board):
+        for i in range(len(print_board)):
+            for j in range(len(print_board[i])):
+                print(Square.value[i][j])

@@ -72,7 +72,7 @@ class SudokuBoard(Board):
                         if square.is_legal_value(number):
                             square.value = number
                             break
-                        else:
+                       
                             
                         #Gå en square tilbake, begynn range ett hakk tidligere            
                         

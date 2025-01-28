@@ -50,58 +50,90 @@ class SudokuBoard(Board):
                 et_element_boks = Elements(box)
 
         
+    def solve(self):
+        #For hver square i 2d-listen:
+        #for hvert tall 1-9:
+        #Er (ettall) i square sin kolonne, boks eller boks?
+
+        for square in self.nums:
+            for tall in range(1, 10):
+                Square.is_legal_value(self, tall)
             
     def __str__(self):
-        print("lalalalalalalalalaal")
         r = "Sudoku Board:\n"
         for row in self.nums:
             r += "["
             for square in row:
                 r += str(str(square)) + " "
             r = r.strip() + "]\n"
-        return r  
+        return r
 
 
 
 
 
-    def solve(self):
         
-        pass
 
 class Square:
-
-    #square_list = []
     
-    def __init__(self, value):
+    def __init__(self, value, element_row=None, element_column=None, element_box=None):
         
         self.value = value
-        #Square.square_list.append(self)
+        self.element_row = element_row
+        self.element_column = element_column
+        self.element_box = element_box 
 
-    def print_list(self):
-        for item in Square.square_list:
-            print(item.value)
-    
+    def is_legal_value(self, number):
+
+        check_value = number
+
+        legal_value = Elements.has_number(self, number)
+
+        if legal_value == False:
+            self.value = check_value
+        
+
     def __str__(self):
         return str(self.value)
     
 
 class Elements:
 
+    
+
     def __init__(self, element):
+        
         self.element = element
-        
 
-        
+        for square in element:
+            if square.element_row == None:
+                square.element_row = self
+            if square.element_column == None:
+                square.element_column = self
+            if square.element_box == None:
+                square.element_box = self
 
-    def legal_value(self, square, number):
-        if number is in element:
-            return False
+    def has_number(self, square, number):
 
-    #def print_list_elements():
-    #    for item in Elements.elements_list:
-    #        print(item.squares)
+        number_exists = False
 
+        for square in square.element_row: 
+            for i in square:
+                if i == number:
+                    number_exists = True
+                    break
+        for square in square.element_column: 
+            for i in square:
+                if i == number:
+                    number_exists = True
+                    break
+        for square in square.element_box: 
+            for i in square:
+                if i == number:
+                    number_exists = True
+                    break
+
+        return number_exists
         
 
 
@@ -129,19 +161,10 @@ if __name__ == "__main__":
     print("PRINTING OUT ELEMENTS")
     print(" ")
     print(blank_board)
+    print(" ")
+    print("Trying to solve")
+    print(" ")
+    blank_board.solve()
 
-    #print(squareboard)
-    #print("Her")
-    #print(blank_board)
-    #print("Her")
-    #Square.print_list(list)
-
-    #blank_board._set_up_elems()
-    #Elements.print_list_elements()
-
-    #board._set_up_nums(board)
-
-    #print(square)
     
-    #board._set_up_nums(board)
     

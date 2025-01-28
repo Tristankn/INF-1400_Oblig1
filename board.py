@@ -37,19 +37,46 @@ class SudokuBoard(Board):
 
 
     def _set_up_elems(self):
-        #HENTA FRA CHATGPT, endre på?
-        for i in self.nums:
-            et_element_rad = Elements(i)
-            
-        for col_idx in range(self.n_cols):
-            et_element_kolonne = Elements([self.nums[row_idx][col_idx] for row_idx in range(self.n_rows)])
-        
+        # Setter opp rader med sine referanser til square objekter
+        for i in range(self.n_rows):
+            element_row = Elements(self.nums[i])
+
+        # Setter opp kolonner med sine referanser til square objekter   
+        for column in range(self.n_cols):
+            element_column = Elements([self.nums[row][column] for row in range(self.n_cols)])
+            for row in range(self.n_rows):
+                self.nums[row][column].element_column = element_column
+
+        # Setter opp bokser med sine referanser til square objekter HENTA FRA CHATGPT
         for box_row in range(0, self.n_rows, 3):
             for box_col in range(0, self.n_cols, 3):
                 box = [self.nums[r][c] for r in range(box_row, box_row + 3) for c in range(box_col, box_col + 3)]
-                et_element_boks = Elements(box)
+                element_box = Elements(box)
+                for square in box:
+                    square.element_box = element_box
 
         
+    def solve(self):
+        #For hver square i 2d-listen:
+        #for hvert tall 1-9:
+        #Er (ettall) i square sin kolonne, boks eller boks?
+
+        #iterations = 0
+
+        for row in self.nums:
+            for square in row:
+                if square.value == 0:
+                    #print("Fant nullverdi")      
+                    for number in range(1, 10):
+                        #print(f"Sjekker verdi {}")
+                        if square.is_legal_value(number):
+                            square.value = number
+                            break
+                        else:
+                            
+                        #Gå en square tilbake, begynn range ett hakk tidligere            
+                        
+
             
     def __str__(self):
         r = "Sudoku Board:\n"
@@ -58,46 +85,68 @@ class SudokuBoard(Board):
             for square in row:
                 r += str(str(square)) + " "
             r = r.strip() + "]\n"
-        return r  
+        return r
 
 
 
 
 
-    def solve(self):
         
-        pass
 
 class Square:
     
-    def __init__(self, value, row_element, col_element, box_element):
+    def __init__(self, value, element_row=None, element_column=None, element_box=None):
         
         self.value = value
-        self.row_element = row_element
-        self.col_element = col_element 
-        self.box_element = box_element
-    
+        self.element_row = element_row
+        self.element_column = element_column
+        self.element_box = element_box 
+        #print(f"Created Square with( Value: {self.value}, Row: {self.element_row}, Column: {self.element_column}, Box: {self.element_box})")
+
+    def is_legal_value(self, number):
+        if not self.element_row.has_number(number) and not self.element_column.has_number(number) and not self.element_box.has_number(number):
+            #print("Has returned true!")
+            return True
+
+        else:
+            #print("Has returned false!")
+            return False
+
     def __str__(self):
         return str(self.value)
     
 
 class Elements:
 
-    def __init__(self, row_element, col_element, box_element):
-        self.row_element = row_element
-        self.col_element = col_element
-        self.box_element = box_element
+
+    def __init__(self, element):
+        self.element = element
+        element_values = [sq.value for sq in self.element]
+        #print(f"Initialized Elements with squares: {element_values}")
+
+        for square in element:
+            if square.element_row is None:
+                square.element_row = self
+            if square.element_column is None:
+                square.element_column = self
+            if square.element_box is None:
+                square.element_box = self
+        row_values = [sq.value for sq in element[0].element_row.element]
+        col_values = [sq.value for sq in element[0].element_column.element]
+        box_values = [sq.value for sq in element[0].element_box.element]
+        #print(f"Initialized element with squares with( Value: {element[0].value}, Row: {row_values}, Column: {col_values}, Box: {box_values})")
         
 
-        
-
-    #ef legal_value(self, square, number):
-    #   if number is in element:
-    #       return False
-
-    #def print_list_elements():
-    #    for item in Elements.elements_list:
-    #        print(item.squares)
+    def has_number(self, number):
+        element_values = [square.value for square in self.element]
+        #print(f"Self.element verdier er: {element_values}")
+        for square in self.element:
+            if square.value == number:
+                #print(f"square.value: {square.value}. Value: {number} found, returning True")
+                return True
+        #print(f"Value: {number} NOT found, returning False")
+        return False
+       
 
         
 
@@ -126,19 +175,12 @@ if __name__ == "__main__":
     print("PRINTING OUT ELEMENTS")
     print(" ")
     print(blank_board)
-
-    #print(squareboard)
-    #print("Her")
-    #print(blank_board)
-    #print("Her")
-    #Square.print_list(list)
-
-    #blank_board._set_up_elems()
-    #Elements.print_list_elements()
-
-    #board._set_up_nums(board)
-
-    #print(square)
+    print(" ")
+    print("Trying to solve")
+    print(" ")
+    blank_board.solve()
+    print(blank_board)
     
-    #board._set_up_nums(board)
+
+    
     

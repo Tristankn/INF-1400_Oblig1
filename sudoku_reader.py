@@ -7,7 +7,7 @@ class Sudoku_reader:
         self.file = open(filename, "r")
         self.current_line = 0
 
-    # returnerer en 9x9 2D liste av integraler
+    # returnerer en 9x9 2D liste av heltall
     def next_board(self):
         try:
             board_txt = self.file.readline()

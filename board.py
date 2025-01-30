@@ -112,7 +112,6 @@ class Elements:
 
     def __init__(self, element):
         self.element = element
-        element_values = [sq.value for sq in self.element]
 
         # Setter referansene til square objektene slik at det er mulig å sjekke hvilken ni objekter den har i sin rad, kolonne og boks.
         for square in element:
@@ -125,7 +124,6 @@ class Elements:
     
     # Returnerer True dersom et spesifikt tall allerede befinner seg i elementene en square er tilknytttet
     def has_number(self, number):
-        element_values = [square.value for square in self.element]
         for square in self.element:
             if square.value == number:
                 return True
@@ -133,13 +131,13 @@ class Elements:
        
 if __name__ == "__main__":
     
-    reader = Sudoku_reader("sudoku_10.csv")
+    reader = Sudoku_reader("sudoku_1M.csv")
     while SudokuBoard(reader.next_board()) is not None:
         blank_board = SudokuBoard(reader.next_board())
         blank_board._set_up_nums()
         blank_board._set_up_elems()
         blank_board.solve()
-        print(blank_board) # Gjør programmet betydelig tregere men gir en fin visualisering av de løste sudokuene
+        #print(blank_board) # Gjør programmet betydelig tregere men gir en fin visualisering av de løste sudokuene
 
     
      

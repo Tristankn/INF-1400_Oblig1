@@ -56,27 +56,32 @@ class SudokuBoard(Board):
                     square.element_box = element_box
 
         
-    def solve(self):
-        #For hver square i 2d-listen:
-        #for hvert tall 1-9:
-        #Er (ettall) i square sin kolonne, boks eller boks?
-
-        #iterations = 0
-
-        for row in self.nums:
-            for square in row:
-                if square.value == 0:
-                    #print("Fant nullverdi")      
-                    for number in range(1, 10):
-                        #print(f"Sjekker verdi {}")
-                        if square.is_legal_value(number):
-                            square.value = number
-                            break
-                       
+   
                             
-                        #Gå en square tilbake, begynn range ett hakk tidligere            
-                        
+                                
+    def solve(self):
+        solve_for_this_square = self.find_empty_square()
+        if not solve_for_this_square:
+            return True
+        i, j = solve_for_this_square
+        for number in range(1,10):
+            if self.nums[i][j].is_legal_value(number):
+                self.nums[i][j].value = number
+                if self.solve():
+                    return True
+            self.nums[i][j].value = 0
+        return False
 
+
+
+
+
+    def find_empty_square(self):
+        for i in range(self.n_rows):
+            for j in range(self.n_cols):
+                if self.nums[i][j].value == 0:
+                    return (i, j)
+        return False
             
     def __str__(self):
         r = "Sudoku Board:\n"
@@ -152,35 +157,18 @@ class Elements:
 
 
 if __name__ == "__main__":
-    # Test code...
-   
-    #reader = Sudoku_reader("sudoku_10.csv")
-    #board = Board(reader.next_board())
-    ##print(board)
-    #print("NY KJØRING")
-    
-# FAKTISK KJØRING AV KODE
-
-    reader = Sudoku_reader("sudoku_10.csv")
-
-    blank_board = SudokuBoard(reader.next_board())
-    blank_board._set_up_nums()
-    #print(sudokuboard)
-
-    print(" ")
-    print("STARTING TO SET UP ELEMENTS:")
-    print(" ")
-    blank_board._set_up_elems()
-    print(" ")
-    print("PRINTING OUT ELEMENTS")
-    print(" ")
-    print(blank_board)
-    print(" ")
-    print("Trying to solve")
-    print(" ")
-    blank_board.solve()
-    print(blank_board)
+  
+    reader = Sudoku_reader("sudoku_100.csv")
+    for i in range (10):
+        blank_board = SudokuBoard(reader.next_board())
+        if blank_board is None:
+            break
+        blank_board._set_up_nums()
+        blank_board._set_up_elems()
+        blank_board.solve()
+        print("Solved Sudokuboard: \n")
+        print(blank_board)
     
 
     
-    
+     

@@ -20,7 +20,7 @@ class Sudoku_reader:
             print("Reading error")
             quit(-1)
 
-if __name__ == "__main__":
-    # Test code to see the format
-    s = Sudoku_reader("sudoku_10.csv")
-    print(s.next_board())
+#if __name__ == "__main__":
+#    # Test code to see the format
+#    s = Sudoku_reader("sudoku_10.csv")
+#    print(s.next_board())

@@ -1,3 +1,5 @@
+import time
+start_time = time.time()
 
 class Sudoku_reader:
 
@@ -17,7 +19,8 @@ class Sudoku_reader:
                     sym_num += 1
             return board
         except:
-            print("Reading error")
+            print("Reading error, no more sudokus to solve!")
+            print("Solving the sudokus took %s seconds!" % (time.time() - start_time))
             quit(-1)
 
 #if __name__ == "__main__":

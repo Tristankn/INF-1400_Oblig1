@@ -7,7 +7,7 @@ class Sudoku_reader:
         self.file = open(filename, "r")
         self.current_line = 0
 
-    # Returns a 2D list (9*9) of ints
+    # returnerer en 9x9 2D liste av integraler
     def next_board(self):
         try:
             board_txt = self.file.readline()
@@ -23,7 +23,3 @@ class Sudoku_reader:
             print("Solving the sudokus took %s seconds!" % (time.time() - start_time))
             quit(-1)
 
-#if __name__ == "__main__":
-#    # Test code to see the format
-#    s = Sudoku_reader("sudoku_10.csv")
-#    print(s.next_board())

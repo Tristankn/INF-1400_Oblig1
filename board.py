@@ -122,9 +122,6 @@ class Elements:
                 square.element_column = self
             if square.element_box is None:
                 square.element_box = self
-        row_values = [sq.value for sq in element[0].element_row.element]
-        col_values = [sq.value for sq in element[0].element_column.element]
-        box_values = [sq.value for sq in element[0].element_box.element]
     
     # Returnerer True dersom et spesifikt tall allerede befinner seg i elementene en square er tilknytttet
     def has_number(self, number):
